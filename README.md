@@ -1,10 +1,41 @@
 # Wechat applet API ES6 wrapper
 
-## Usage
+## Features
+
+- Promisified async API (goodbye girls! success, fail and complete)
+
+- Shortcuts for `wx.request` API
+
+- Applet runtime inspector (use for dev only)
+
+- Isolated Promise polyfill (from core-js)
+
+```javascript
+import Promise from 'wxx/dist/promise'
+```
+
+- Optional Grouped APIs:
 
 ```
+wxx.auth.*
+wxx.device.*
+wxx.file.*
+wxx.geo.*
+wxx.media.*
+wxx.net.*
+wxx.payment.*
+wxx.storage.*
+wxx.ui.*
+
+// visit es6/wx/definitions.js for more details
+```
+
+## Usage
+
+```javascript
 // import wrapper function from wxx
 import wrapper from 'wxx'
+import {Promise} from 'wxx'
 
 // get wrapped wx Object
 const wxx = wrapper(wx)
@@ -20,12 +51,26 @@ wxx.request.get('http://github.com')
   .then(response => console.log)
   .catch(error => console.error)
 
+// use init function for request
+wxx.request.get('http://github.com', () => {
+  return {
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    dataType: 'csv'
+  }
+})
+
 // to query Authentication Info
 wxx.login().then(({code}) => console.log)
 wxx.getUserInfo().then(({userInfo, ...}) => console.log)
 
 // you can use a all-in-one method
 wxx.queryAuth().then(([code, userInfo]) => console.log)
+
+
+// use Promise
+Promise.all([]).then()
 ```
 
 ## Wrapped methods
@@ -36,7 +81,7 @@ wxx.queryAuth().then(([code, userInfo]) => console.log)
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.request({url, ...}).then().catch()
 ```
 
@@ -44,7 +89,7 @@ wxx.request({url, ...}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.uploadFile({url, ...}).then().catch()
 ```
 
@@ -52,7 +97,7 @@ wxx.uploadFile({url, ...}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.downloadFile({url,...}).then().catch()
 ```
 
@@ -60,7 +105,7 @@ wxx.downloadFile({url,...}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.connectSocket({url, ...}).then().catch()
 ```
 
@@ -68,7 +113,7 @@ wxx.connectSocket({url, ...}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onSocketOpen()
 ```
 
@@ -76,7 +121,7 @@ wxx.onSocketOpen()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onSocketError()
 ```
 
@@ -84,7 +129,7 @@ wxx.onSocketError()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.sendSocketMessage({data}).then().catch()
 ```
 
@@ -92,7 +137,7 @@ wxx.sendSocketMessage({data}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onSocketMessage()
 ```
 
@@ -100,7 +145,7 @@ wxx.onSocketMessage()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.closeSocket()
 ```
 
@@ -108,7 +153,7 @@ wxx.closeSocket()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onSocketClose()
 ```
 
@@ -118,7 +163,7 @@ wxx.onSocketClose()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.chooseImage({count,...}).then().catch()
 ```
 
@@ -126,7 +171,7 @@ wxx.chooseImage({count,...}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.previewImage({current,...}).then().catch()
 ```
 
@@ -134,7 +179,7 @@ wxx.previewImage({current,...}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getImageInfo({src}).then().catch()
 ```
 
@@ -142,7 +187,7 @@ wxx.getImageInfo({src}).then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.startRecord().then().catch()
 ```
 
@@ -150,7 +195,7 @@ wxx.startRecord().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.stopRecord()
 ```
 
@@ -158,7 +203,7 @@ wxx.stopRecord()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.playVoice({filePath}).then().catch()
 ```
 
@@ -166,7 +211,7 @@ wxx.playVoice({filePath}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.pauseVoice()
 ```
 
@@ -174,7 +219,7 @@ wxx.pauseVoice()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.stopVoice()
 ```
 
@@ -182,7 +227,7 @@ wxx.stopVoice()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getBackgroundAudioPlayerState().then().catch()
 ```
 
@@ -190,7 +235,7 @@ wxx.getBackgroundAudioPlayerState().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.playBackgroundAudio({dataUrl,...}).then().catch()
 ```
 
@@ -198,7 +243,7 @@ wxx.playBackgroundAudio({dataUrl,...}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.pauseBackgroundAudio()
 ```
 
@@ -206,7 +251,7 @@ wxx.pauseBackgroundAudio()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.seekBackgroundAudio({position,...}).then().catch()
 ```
 
@@ -214,7 +259,7 @@ wxx.seekBackgroundAudio({position,...}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.stopBackgroundAudio()
 ```
 
@@ -222,7 +267,7 @@ wxx.stopBackgroundAudio()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onBackgroundAudioPlay()
 ```
 
@@ -230,7 +275,7 @@ wxx.onBackgroundAudioPlay()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onBackgroundAudioPause()
 ```
 
@@ -238,7 +283,7 @@ wxx.onBackgroundAudioPause()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onBackgroundAudioStop()
 ```
 
@@ -246,7 +291,7 @@ wxx.onBackgroundAudioStop()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createAudioContext(audioId)
 ```
 
@@ -254,7 +299,7 @@ wxx.createAudioContext(audioId)
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.chooseVideo({sourceType,...}).then().catch()
 ```
 
@@ -262,7 +307,7 @@ wxx.chooseVideo({sourceType,...}).then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createVideoContext(videoId)
 ```
 
@@ -272,7 +317,7 @@ wxx.createVideoContext(videoId)
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.saveFile().then().catch()
 ```
 
@@ -280,7 +325,7 @@ wxx.saveFile().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getSavedFileList().then().catch()
 ```
 
@@ -288,7 +333,7 @@ wxx.getSavedFileList().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getSavedFileInfo().then().catch()
 ```
 
@@ -296,7 +341,7 @@ wxx.getSavedFileInfo().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.removeSavedFile().then().catch()
 ```
 
@@ -304,7 +349,7 @@ wxx.removeSavedFile().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.openDocument().then().catch()
 ```
 
@@ -314,7 +359,7 @@ wxx.openDocument().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.setStorage().then().catch()
 ```
 
@@ -322,7 +367,7 @@ wxx.setStorage().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getStorage().then().catch()
 ```
 
@@ -330,7 +375,7 @@ wxx.getStorage().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getStorageInfo().then().catch()
 ```
 
@@ -338,7 +383,7 @@ wxx.getStorageInfo().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.removeStorage().then().catch()
 ```
 
@@ -346,7 +391,7 @@ wxx.removeStorage().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.clearStorage().then().catch()
 ```
 
@@ -355,7 +400,7 @@ wxx.clearStorage().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.setStorageSync()
 ```
 
@@ -363,7 +408,7 @@ wxx.setStorageSync()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.getStorageSync()
 ```
 
@@ -371,7 +416,7 @@ wxx.getStorageSync()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.getStorageInfoSync()
 ```
 
@@ -379,7 +424,7 @@ wxx.getStorageInfoSync()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.removeStorageSync()
 ```
 
@@ -387,7 +432,7 @@ wxx.removeStorageSync()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.clearStorageSync()
 ```
 
@@ -398,7 +443,7 @@ wxx.clearStorageSync()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getLocation().then().catch()
 ```
 
@@ -406,7 +451,7 @@ wxx.getLocation().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.chooseLocation().then().catch()
 ```
 
@@ -414,7 +459,7 @@ wxx.chooseLocation().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.openLocation().then().catch()
 ```
 
@@ -422,7 +467,7 @@ wxx.openLocation().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createMapContext()
 ```
 
@@ -432,7 +477,7 @@ wxx.createMapContext()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getSystemInfo().then().catch()
 ```
 
@@ -440,7 +485,7 @@ wxx.getSystemInfo().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.getSystemInfoSync()
 ```
 
@@ -448,7 +493,7 @@ wxx.getSystemInfoSync()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getNetworkType().then().catch()
 ```
 
@@ -456,7 +501,7 @@ wxx.getNetworkType().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onAccelerometerChange()
 ```
 
@@ -464,7 +509,7 @@ wxx.onAccelerometerChange()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.onCompassChange()
 ```
 
@@ -472,7 +517,7 @@ wxx.onCompassChange()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.makePhoneCall().then().catch()
 ```
 
@@ -480,7 +525,7 @@ wxx.makePhoneCall().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.scanCode().then().catch()
 ```
 
@@ -490,7 +535,7 @@ wxx.scanCode().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.showToast().then().catch()
 ```
 
@@ -498,7 +543,7 @@ wxx.showToast().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.hideToast()
 ```
 
@@ -506,14 +551,14 @@ wxx.hideToast()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.showModal().then().catch()
 ```
 #### `wx.showActionSheet`
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.showActionSheet().then().catch()
 ```
 
@@ -521,7 +566,7 @@ wxx.showActionSheet().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.setNavigationBarTitle().then().catch()
 ```
 
@@ -529,7 +574,7 @@ wxx.setNavigationBarTitle().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.showNavigationBarLoading()
 ```
 
@@ -537,7 +582,7 @@ wxx.showNavigationBarLoading()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.hideNavigationBarLoading()
 ```
 
@@ -545,7 +590,7 @@ wxx.hideNavigationBarLoading()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.navigateTo().then().catch()
 ```
 
@@ -553,7 +598,7 @@ wxx.navigateTo().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.redirectTo().then().catch()
 ```
 
@@ -561,7 +606,7 @@ wxx.redirectTo().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.switchTab().then().catch()
 ```
 
@@ -569,7 +614,7 @@ wxx.switchTab().then().catch()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.navigateBack()
 ```
 
@@ -577,7 +622,7 @@ wxx.navigateBack()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createAnimation()
 ```
 
@@ -585,7 +630,7 @@ wxx.createAnimation()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createCanvasContext()
 ```
 
@@ -593,7 +638,7 @@ wxx.createCanvasContext()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.createContext()
 ```
 
@@ -601,7 +646,7 @@ wxx.createContext()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.drawCanvas()
 ```
 
@@ -609,7 +654,7 @@ wxx.drawCanvas()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.canvasToTempFilePath()
 ```
 
@@ -617,7 +662,7 @@ wxx.canvasToTempFilePath()
 
 > wrapper: Delegate
 
-```
+```javascript
 wxx.stopPullDownRefresh()
 ```
 
@@ -627,21 +672,21 @@ wxx.stopPullDownRefresh()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.login().then().catch()
 ```
 #### `wx.checkSession`
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.checkSession().then().catch()
 ```
 #### `wx.getUserInfo`
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.getUserInfo().then().catch()
 ```
 
@@ -651,7 +696,7 @@ wxx.getUserInfo().then().catch()
 
 > wrapper: Promisify
 
-```
+```javascript
 wxx.requestPayment().then().catch()
 ```
 
@@ -665,7 +710,7 @@ The PATCH verb maybe useful for strict RESTful-ist, and so it has defined also.
 
 ### `wxx.request`
 
-```
+```javascript
 wxx.request.get(url:String [, init:Function])
 wxx.request.post(url:String, body:String/Object, [, init:Function])
 wxx.request.put(url:String, body:String/Object, [, init:Function])
@@ -681,7 +726,7 @@ wxx.request.connect(url:String [, init:Function])
 
 > login and getUserInfo in parallel
 
-```
+```javascript
 wxx.queryAuth().then(([code, data]) => {
   return wxx.request.post('https://api.server.com/session', {code, data})  
 })
@@ -698,7 +743,7 @@ It will report detecting result in the console panel.
 
 ### usage
 
-```
+```javascript
 import inspect from 'wxx/dist/inspector'
 
 App({
