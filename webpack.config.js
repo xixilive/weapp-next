@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-
+var version = require('./package.json').version
 module.exports = {
   devtool: null,
 
@@ -8,8 +8,8 @@ module.exports = {
 
   entry: {
     'index': './index',
-    'polyfill': './polyfill',
-    'promise': './promise'
+    'promise': './promise',
+    'inspector': './inspector'
   },
 
   output: {
@@ -23,9 +23,6 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        query: {
-          presets: ["es2015", "stage-0"]
-        },
         include: path.join(__dirname, 'es6'),
         exclude: path.join(__dirname, 'node_modules')
       }
@@ -37,12 +34,5 @@ module.exports = {
     modulesDirectories: ['es6', 'node_modules']
   },
 
-  plugins: [
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    })
-  ]
+  plugins: [new webpack.NoErrorsPlugin()]
 }
