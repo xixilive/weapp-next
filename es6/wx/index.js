@@ -18,11 +18,11 @@ export default function wxWrapper(x, grouped = false){
       wrapMethods(wxx[g], x, methods[g])
     }
     shortcutRequest(wxx.net.request)
-    wxx.auth.queryAuth = queryAuth
+    wxx.auth.queryAuth = queryAuth(wxx.auth.login, wxx.auth.getUserInfo)
   }else{
     wrapMethods(wxx, x, methods)
     shortcutRequest(wxx.request)
-    wxx.queryAuth = queryAuth
+    wxx.queryAuth = queryAuth(wxx.login, wxx.getUserInfo)
   }
 
   return wxx

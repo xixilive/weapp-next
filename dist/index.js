@@ -74,29 +74,7 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	exports.default = function (x) {
-	  var grouped = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-	  var wxx = {
-	    VERSION: ("0.1.0")
-	  };
-	  var methods = (0, _definitions2.default)(grouped);
-	  if (grouped) {
-	    for (var g in methods) {
-	      wxx[g] = {};
-	      wrapMethods(wxx[g], x, methods[g]);
-	    }
-	    (0, _enhancements.shortcutRequest)(wxx.net.request);
-	    wxx.auth.queryAuth = _enhancements.queryAuth;
-	  } else {
-	    wrapMethods(wxx, x, methods);
-	    (0, _enhancements.shortcutRequest)(wxx.request);
-	    wxx.queryAuth = _enhancements.queryAuth;
-	  }
-
-	  return wxx;
-	};
+	exports.default = wxWrapper;
 
 	var _definitions = __webpack_require__(2);
 
@@ -120,6 +98,26 @@ module.exports =
 	  }
 	};
 
+	function wxWrapper(x) {
+	  var grouped = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+	  var wxx = {};
+	  var methods = (0, _definitions2.default)(grouped);
+	  if (grouped) {
+	    for (var g in methods) {
+	      wxx[g] = {};
+	      wrapMethods(wxx[g], x, methods[g]);
+	    }
+	    (0, _enhancements.shortcutRequest)(wxx.net.request);
+	    wxx.auth.queryAuth = (0, _enhancements.queryAuth)(wxx.auth.login, wxx.auth.getUserInfo);
+	  } else {
+	    wrapMethods(wxx, x, methods);
+	    (0, _enhancements.shortcutRequest)(wxx.request);
+	    wxx.queryAuth = (0, _enhancements.queryAuth)(wxx.login, wxx.getUserInfo);
+	  }
+
+	  return wxx;
+	}
 	module.exports = exports['default'];
 
 /***/ },
@@ -1753,7 +1751,9 @@ module.exports =
 	}
 
 	function queryAuth(login, getUserInfo) {
-	  return _promise2.default.all([login, getUserInfo]);
+	  return function () {
+	    return _promise2.default.all([login, getUserInfo]);
+	  };
 	}
 
 	exports.shortcutRequest = shortcutRequest;

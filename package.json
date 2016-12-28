@@ -1,12 +1,12 @@
 {
   "name": "wxx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "wechat applet API ES6 wrapper",
   "main": "dist/index.js",
   "scripts": {
     "pretest": "eslint es6",
     "test": "jest",
-    "build": "rimraf dist/* && webpack --progress --colors --config webpack.config.js"
+    "build": "npm test && rimraf dist/* && webpack --progress --colors --config webpack.config.js"
   },
   "repository": {
     "type": "git",
