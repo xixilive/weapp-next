@@ -1,6 +1,6 @@
 {
   "name": "wxx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "wechat applet API ES6 wrapper",
   "main": "dist/index.js",
   "scripts": {
