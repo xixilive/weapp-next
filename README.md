@@ -766,3 +766,79 @@ App({
   ......
 })
 ```
+
+## NOTICE
+
+> tl;dr; Wechat Applet only require modules in `app local scope` currently, and so, you must to bundle all external dependencies into your app.
+
+It assumes you have a app named `abc` in following structure:
+
+```
+abc/
+  |-es6/
+     |- app.js
+  |-node_modules/
+     |- wxx
+     |- ...
+  |-pages/
+      |- start
+        |- start.js
+        |- start.json
+        |- start.wxml
+        |- start.wxss
+      |- ...
+  |-app.js
+  |-app.json
+  |-app.wxss
+  |-package.json
+  |-...
+```
+
+OBVIOUSLY, abc dependents on my `wxx` :), but you can't to require `wxx` in abc's files directly like this:
+
+```
+// abc/app.js
+import wxx from 'wxx'
+
+App({...})
+
+// throw! throw! throw `module 'wxx.js' is not defined` at runtime
+```
+
+You should require `wxx` in your `local files` in this approach.
+
+```
+// abc/es6/app.js
+import wxx from 'wxx'
+
+export {wxx}
+```
+
+and build `abc/es6` into a bundle module, then you can require your bundle version in wechat applet code. I favoured `webpack` for this.
+
+```
+// webpack.config.js
+
+module.exports = {
+  ...,
+  entry: {
+    'app': './es6/app.js'
+  },
+  output: {
+    path: path.join(__dirname, 'lib'),
+    filename: '[name].bundle.js',
+    libraryTarget: 'umd'
+  },
+  ...
+}
+```
+
+require bundle in applet code:
+
+```
+import {wxx} from './lib/app.bundle'
+
+App({....})
+```
+
+take away, no thanks! 
