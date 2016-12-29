@@ -34,5 +34,12 @@ module.exports = {
     modulesDirectories: ['es6', 'node_modules']
   },
 
-  plugins: [new webpack.NoErrorsPlugin()]
+  plugins: [
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'VERSION': JSON.stringify(version)
+      }
+    })
+  ]
 }

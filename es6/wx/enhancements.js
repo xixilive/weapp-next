@@ -1,4 +1,4 @@
-import Promise from '../core-js/promise'
+import Promise from '../vendor/promise'
 
 const shortcut = (request, method) => (url, body, init) => {
   const config = {}
@@ -7,7 +7,7 @@ const shortcut = (request, method) => (url, body, init) => {
     body = undefined
   }
 
-  if(['GET', 'HEAD', 'DELETE', 'TRACE', 'CONNECT'].indexOf(method)){
+  if(['GET', 'HEAD', 'DELETE', 'TRACE', 'CONNECT'].indexOf(method) !== -1){
     body = undefined
   }
 
@@ -19,6 +19,9 @@ const shortcut = (request, method) => (url, body, init) => {
     Object.assign(config, {body})
   }
 
+  const {header} = config
+  const {VERSION} = process.env
+  config.header = Object.assign({}, header, {'X-Wrapped-With': `v${VERSION}`})
   return request(Object.assign(config, {url, method}))
 }
 
@@ -36,11 +39,11 @@ function shortcutRequest(req){
   return req
 }
 
-function queryAuth(login, getUserInfo){
+function requireAuth(login, getUserInfo){
   return () => Promise.all([login(), getUserInfo()])
 }
 
 export {
   shortcutRequest,
-  queryAuth
+  requireAuth
 }

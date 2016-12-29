@@ -1,5 +1,7 @@
 # Wechat applet API ES6 wrapper
 
+封装[微信小程序API](https://mp.weixin.qq.com/debug/wxadoc/dev/api/), 提供符合潮流的, 易于使用的开发接口.
+
 ## Features
 
 - Promisified async API (goodbye girls! success, fail and complete)
@@ -12,7 +14,7 @@
 App({onLaunch(){ require('wxx/dist/inspector')(), ... }})
 ```
 
-- Isolated Promise polyfill (by core-js promise)
+- Isolated Promise polyfill (by [core-js](https://github.com/zloirock/core-js))
 
 ```js
 import Promise from 'wxx/dist/promise'
@@ -37,6 +39,16 @@ wxx.ui.*
 ```
 
 > Visit [es6/wx/definitions.js](./es6/wx/definitions.js) for more details
+
+- RESTful http client
+
+```js
+import wrapper from 'wxx'
+
+const http = wrapper(wx).Http('https://api.server.com/')
+http.get('/status').then()
+http.post('/status', {data: {}}).then()
+```
 
 ## Install
 
@@ -79,7 +91,7 @@ wxx.login().then(({code}) => console.log)
 wxx.getUserInfo().then(({userInfo, ...}) => console.log)
 
 // you can use an all-in-one method
-wxx.queryAuth().then(([code, userInfo]) => console.log)
+wxx.requireAuth().then(([code, userInfo]) => console.log)
 
 
 // use Promise
@@ -735,12 +747,12 @@ wxx.request.trace(url:String [, init:Function])
 wxx.request.connect(url:String [, init:Function])
 ```
 
-### `wxx.queryAuth`
+### `wxx.requireAuth`
 
 > login and getUserInfo in parallel
 
 ```js
-wxx.queryAuth().then(([code, data]) => {
+wxx.requireAuth().then(([code, data]) => {
   return wxx.request.post('https://api.server.com/session', {code, data})  
 })
 
@@ -814,7 +826,7 @@ import wxx from 'wxx'
 export {wxx}
 ```
 
-and build `abc/es6` into a bundle module, then you can require your bundle version in wechat applet code. I favoured `webpack` for this.
+and build `abc/es6` into a bundle module, then you can require your bundle version in wechat applet code. I favoured [webpack](https://webpack.github.io/) for this.
 
 ```
 // webpack.config.js
@@ -841,4 +853,4 @@ import {wxx} from './lib/app.bundle'
 App({....})
 ```
 
-take away, no thanks! 
+take away, no thanks!

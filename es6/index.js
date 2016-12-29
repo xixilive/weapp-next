@@ -1,2 +1,2 @@
 export default from './wx'
-export Promise from './core-js/promise'
+export Promise from './vendor/promise'

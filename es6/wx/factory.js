@@ -1,4 +1,4 @@
-import Promise from '../core-js/promise'
+import Promise from '../vendor/promise'
 
 const promisify = (x, method) => (argObj) => {
   return new Promise((resolve, reject) => {

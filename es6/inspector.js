@@ -1,5 +1,5 @@
 const features = {
-  Object: {
+  object: {
     assign: true,
     is: true,
     setPrototypeOf: true,
@@ -17,7 +17,7 @@ const features = {
     'classof*': true
   },
 
-  Array: {
+  array: {
     from: true,
     of: true,
     isArray: true,
@@ -43,7 +43,7 @@ const features = {
     'includes*': false
   },
 
-  String: {
+  string: {
     fromCodePoint: true,
     raw: true,
     includes: false,
@@ -60,7 +60,7 @@ const features = {
     'padEnd*': false
   },
 
-  Math: {
+  math: {
     acosh: true,
     asinh: true,
     atanh: true,
@@ -80,16 +80,16 @@ const features = {
     trunc: true
   },
 
-  Date: {
+  date: {
     toJSON: false
   },
 
-  Promise: {
+  promise: {
     all: true,
     resolve: true,
     reject: true,
     race: true,
-    polyfill: true,
+    __polyfill__: true,
     then: false,
     'catch': false,
     'finally': false
@@ -97,11 +97,10 @@ const features = {
 }
 
 function inspectType(type, typeName, instance){
-  console.group()
+  console.info(' ')
   console.info(`==========${typeName}==========`)
   const target = features[typeName]
   if(!target){
-    console.groupEnd()
     return
   }
 
@@ -117,31 +116,29 @@ function inspectType(type, typeName, instance){
       }
     }
   }
-  console.groupEnd()
 }
 
 function isSupport(typeName, supported, msg){
   console.info(`=======${typeName} ${supported ? 'Yes' : 'No'}=======`)
 }
 
-export default function insepct(){
+function wxInsepctor(){
   console.info('ES6 syntax and features inspector')
 
-  inspectType(Object, 'Object', {})
-  inspectType(Array, 'Array', [])
-  inspectType(String, 'String', '')
-  inspectType(Math, 'Math')
-  inspectType(Date, 'Date', new Date())
+  inspectType(Object, 'object', {})
+  inspectType(Array, 'array', [])
+  inspectType(String, 'string', '')
+  inspectType(Math, 'math')
+  inspectType(Date, 'date', new Date())
 
-  console.group()
+  console.info(' ')
   isSupport('Promise', typeof Promise === 'function')
   if(typeof Promise === 'function'){
-    inspectType(Promise, 'Promise', Promise.resolve())
+    inspectType(Promise, 'promise', Promise.resolve())
   }
   isSupport('fetch', typeof fetch === 'function')
-  console.groupEnd()
 
-  console.group()
+  console.info(' ')
   isSupport('ArrayBuffer', typeof ArrayBuffer !== 'undefined')
   isSupport('DataView', typeof DataView !== 'undefined')
   isSupport('Int8Array', typeof Int8Array !== 'undefined')
@@ -160,7 +157,9 @@ export default function insepct(){
   isSupport('Set*', typeof Set === 'function')
   isSupport('WeakSet*', typeof WeakSet === 'function')
 
-  isSupport('setImmediate', typeof setImmediate === 'function')
-  isSupport('clearImmediate', typeof clearImmediate === 'function')
-  console.groupEnd()
+  // BUG: nwjs, https://github.com/nwjs/nw.js/issues/897
+  // isSupport('setImmediate', typeof setImmediate === 'function')
+  // isSupport('clearImmediate', typeof clearImmediate === 'function')
 }
+
+export default wxInsepctor.bind({})

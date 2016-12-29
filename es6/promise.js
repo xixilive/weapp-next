@@ -1,3 +1,2 @@
-import Promise from './core-js/promise'
-
-export default Promise
+// make an isolated module
+export default from './vendor/promise'

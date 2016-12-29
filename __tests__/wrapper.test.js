@@ -112,7 +112,8 @@ describe('Wrapper', () => {
       })
 
       verbs.forEach(verb => expect(typeof wxx.request[verb]).toBe('function'))
-      expect(typeof wxx.queryAuth).toBe('function')
+      expect(typeof wxx.requireAuth).toBe('function')
+      expect(typeof wxx.Http).toBe('function')
     })
   })
 
@@ -128,7 +129,8 @@ describe('Wrapper', () => {
       })
 
       verbs.forEach(verb => expect(typeof wxx.net.request[verb]).toBe('function'))
-      expect(typeof wxx.auth.queryAuth).toBe('function')
+      expect(typeof wxx.auth.requireAuth).toBe('function')
+      expect(typeof wxx.Http).toBe('function')
     })
   })
 
