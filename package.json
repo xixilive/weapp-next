@@ -1,5 +1,5 @@
 {
-  "name": "wxx",
+  "name": "weapp",
   "version": "0.1.3",
   "description": "wechat applet API ES6 wrapper",
   "main": "dist/index.js",
@@ -10,21 +10,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/xixilive/wxx.git"
+    "url": "git+ssh://git@github.com/xixilive/weapp.git"
   },
   "keywords": [
     "wechat",
     "wexin",
     "applet小程序",
     "wx",
-    "微信小程序"
+    "微信小程序",
+    "weapp"
   ],
   "author": "xixilive@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xixilive/wxx/issues"
+    "url": "https://github.com/xixilive/weapp/issues"
   },
-  "homepage": "https://github.com/xixilive/wxx#readme",
+  "homepage": "https://github.com/xixilive/weapp#readme",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",

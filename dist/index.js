@@ -61,9 +61,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.Promise = exports.default = undefined;
 
-	var _wx = __webpack_require__(1);
+	var _weapp = __webpack_require__(1);
 
-	var _wx2 = _interopRequireDefault(_wx);
+	var _weapp2 = _interopRequireDefault(_weapp);
 
 	var _promise = __webpack_require__(4);
 
@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _wx2.default;
+	exports.default = _weapp2.default;
 	exports.Promise = _promise2.default;
 
 /***/ },
@@ -114,27 +114,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	function wxWrapper(x) {
 	  var grouped = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	  var wxx = {
+	  var weapp = {
 	    VERSION: ("0.1.3")
 	  };
 
 	  var methods = (0, _definitions2.default)(grouped);
 	  if (grouped) {
 	    for (var g in methods) {
-	      wxx[g] = {};
-	      wrapMethods(wxx[g], x, methods[g]);
+	      weapp[g] = {};
+	      wrapMethods(weapp[g], x, methods[g]);
 	    }
-	    (0, _enhancements.shortcutRequest)(wxx.net.request);
-	    wxx.auth.requireAuth = (0, _enhancements.requireAuth)(wxx.auth.login, wxx.auth.getUserInfo);
-	    wxx.Http = (0, _http2.default)(wxx.net.request);
+	    (0, _enhancements.shortcutRequest)(weapp.net.request);
+	    weapp.auth.requireAuth = (0, _enhancements.requireAuth)(weapp.auth.login, weapp.auth.getUserInfo);
+	    weapp.Http = (0, _http2.default)(weapp.net.request);
 	  } else {
-	    wrapMethods(wxx, x, methods);
-	    (0, _enhancements.shortcutRequest)(wxx.request);
-	    wxx.requireAuth = (0, _enhancements.requireAuth)(wxx.login, wxx.getUserInfo);
-	    wxx.Http = (0, _http2.default)(wxx.request);
+	    wrapMethods(weapp, x, methods);
+	    (0, _enhancements.shortcutRequest)(weapp.request);
+	    weapp.requireAuth = (0, _enhancements.requireAuth)(weapp.login, weapp.getUserInfo);
+	    weapp.Http = (0, _http2.default)(weapp.request);
 	  }
 
-	  return wxx;
+	  return weapp;
 	}
 	module.exports = exports['default'];
 

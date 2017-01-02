@@ -1,4 +1,4 @@
-const wrapper = require('../es6/wx')
+const weapp = require('../es6/weapp')
 
 describe('Request', () => {
   describe('via shortcut method:', () => {
@@ -24,7 +24,7 @@ describe('Request', () => {
     const wx = (resolve) => ({request: request(resolve)})
 
     const perform = (verb, success) => () => {
-      const req = wrapper(wx(!!success)).request
+      const req = weapp(wx(!!success)).request
       const withBody = ~['post', 'put', 'patch'].indexOf(verb)
       const args = withBody ? ['url', 'body'] : ['url']
       const expectResponse = (response) => {
@@ -52,7 +52,7 @@ describe('Request', () => {
     const request = ({success, ...args}) => {
       resolve(success)(args)
     }
-    return wrapper({request}).request.get('url', () => ({dataType: 'json'})).then(response => {
+    return weapp({request}).request.get('url', () => ({dataType: 'json'})).then(response => {
       expect(response).toEqual('success')
       const params = mock.mock.calls[0][0]
       expect(params.dataType).toEqual('json')

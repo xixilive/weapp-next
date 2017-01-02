@@ -11,25 +11,25 @@ const wrapMethods = (dest, src, methods) => {
 }
 
 export default function wxWrapper(x, grouped = false){
-  const wxx = {
+  const weapp = {
     VERSION: process.env.VERSION
   }
 
   const methods = getMethods(grouped)
   if(grouped){
     for(let g in methods){
-      wxx[g] = {}
-      wrapMethods(wxx[g], x, methods[g])
+      weapp[g] = {}
+      wrapMethods(weapp[g], x, methods[g])
     }
-    shortcutRequest(wxx.net.request)
-    wxx.auth.requireAuth = requireAuth(wxx.auth.login, wxx.auth.getUserInfo)
-    wxx.Http = Http(wxx.net.request)
+    shortcutRequest(weapp.net.request)
+    weapp.auth.requireAuth = requireAuth(weapp.auth.login, weapp.auth.getUserInfo)
+    weapp.Http = Http(weapp.net.request)
   }else{
-    wrapMethods(wxx, x, methods)
-    shortcutRequest(wxx.request)
-    wxx.requireAuth = requireAuth(wxx.login, wxx.getUserInfo)
-    wxx.Http = Http(wxx.request)
+    wrapMethods(weapp, x, methods)
+    shortcutRequest(weapp.request)
+    weapp.requireAuth = requireAuth(weapp.login, weapp.getUserInfo)
+    weapp.Http = Http(weapp.request)
   }
 
-  return wxx
+  return weapp
 }

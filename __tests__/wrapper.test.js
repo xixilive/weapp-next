@@ -1,4 +1,4 @@
-const wrapper = require('../es6/wx')
+const weapp = require('../es6/weapp')
 const wx = jest.fn()
 
 const methods = [
@@ -104,7 +104,7 @@ const verbs = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head', 'trac
 describe('Wrapper', () => {
   describe('Standard', () => {
     let wxx
-    beforeAll(() => wxx = wrapper(wx))
+    beforeAll(() => wxx = weapp(wx))
 
     it('should be defined', () => {
       methods.forEach(name => {
@@ -119,7 +119,7 @@ describe('Wrapper', () => {
 
   describe('Grouped', () => {
     let wxx
-    beforeAll(() => wxx = wrapper(wx, true))
+    beforeAll(() => wxx = weapp(wx, true))
 
     it('should be defined', () => {
       Object.keys(groups).forEach(g => {

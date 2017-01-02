@@ -1,4 +1,4 @@
-const Http = require('../es6/wx/http')
+const Http = require('../es6/weapp/http')
 
 const req = {
   get: jest.fn(),
