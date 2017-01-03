@@ -103,35 +103,36 @@ const verbs = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head', 'trac
 
 describe('Wrapper', () => {
   describe('Standard', () => {
-    let wxx
-    beforeAll(() => wxx = weapp(wx))
+    let api
+    beforeAll(() => api = weapp(wx))
 
     it('should be defined', () => {
       methods.forEach(name => {
-        expect(typeof wxx[name]).toBe('function')
+        expect(typeof api[name]).toBe('function')
       })
 
-      verbs.forEach(verb => expect(typeof wxx.request[verb]).toBe('function'))
-      expect(typeof wxx.requireAuth).toBe('function')
-      expect(typeof wxx.Http).toBe('function')
+      verbs.forEach(verb => expect(typeof api.request[verb]).toBe('function'))
+      expect(typeof api.requireAuth).toBe('function')
+      expect(typeof api.Http).toBe('function')
     })
   })
 
   describe('Grouped', () => {
-    let wxx
-    beforeAll(() => wxx = weapp(wx, true))
 
-    it('should be defined', () => {
+    const expectGrouped = (api) => () => {
       Object.keys(groups).forEach(g => {
         groups[g].forEach(name => {
-          expect(typeof wxx[g][name]).toBe('function')
+          expect(typeof api[g][name]).toBe('function')
         })
       })
 
-      verbs.forEach(verb => expect(typeof wxx.net.request[verb]).toBe('function'))
-      expect(typeof wxx.auth.requireAuth).toBe('function')
-      expect(typeof wxx.Http).toBe('function')
-    })
+      verbs.forEach(verb => expect(typeof api.net.request[verb]).toBe('function'))
+      expect(typeof api.auth.requireAuth).toBe('function')
+      expect(typeof api.Http).toBe('function')
+    }
+
+    it('should be grouped if the 2nd argument is true', expectGrouped(weapp(wx, true)))
+    it('should be grouped for weapp.group() call', expectGrouped(weapp.group(wx)))
   })
 
 })

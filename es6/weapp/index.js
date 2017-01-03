@@ -10,7 +10,7 @@ const wrapMethods = (dest, src, methods) => {
   }
 }
 
-export default function wxWrapper(x, grouped = false){
+function wxWrapper(x, grouped = false){
   const weapp = {
     VERSION: process.env.VERSION
   }
@@ -33,3 +33,7 @@ export default function wxWrapper(x, grouped = false){
 
   return weapp
 }
+
+wxWrapper.group = (x) => wxWrapper(x, true)
+
+export default wxWrapper

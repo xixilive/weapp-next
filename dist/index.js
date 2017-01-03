@@ -83,7 +83,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = wxWrapper;
 
 	var _definitions = __webpack_require__(2);
 
@@ -115,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var grouped = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	  var weapp = {
-	    VERSION: ("0.1.3")
+	    VERSION: ("0.1.4")
 	  };
 
 	  var methods = (0, _definitions2.default)(grouped);
@@ -136,6 +135,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return weapp;
 	}
+
+	wxWrapper.group = function (x) {
+	  return wxWrapper(x, true);
+	};
+
+	exports.default = wxWrapper;
 	module.exports = exports['default'];
 
 /***/ },
@@ -1793,7 +1798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.1.3");
+	    var VERSION = ("0.1.4");
 
 	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));

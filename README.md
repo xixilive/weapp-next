@@ -1,34 +1,136 @@
 # weapp
 
-[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp)
+Wechat applet official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
-封装[微信小程序API](https://mp.weixin.qq.com/debug/wxadoc/dev/api/), 提供符合潮流的, 易于使用的开发接口.
+[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp)
 
 ![weapp-screen-shot](./docs/screen-shot.png)
 
 ## Features
 
-- Promisified async API (goodbye girls! success, fail and complete)
+- Promisified async API
 
 - Shortcuts for `wx.request` API
 
-- Applet runtime inspector (use for dev only)
+- Runtime inspector (use for dev/simulator only)
+
+- Isolated Promise polyfill (by core-js)
+
+- Enhancements official APIs
+
+- Optional grouped APIs:
+
+- RESTful http client
+
+## Install
+
+`npm i xixilive/weapp --save-dev`
+
+## Usage
+
+`weapp` use UMD module system, you can load it in Commonjs or AMD format.
 
 ```js
-App({onLaunch(){ require('weapp/dist/inspector')(), ... }})
+import weapp, {Promise} from 'weapp'
+
+// get wrapped wx Object
+const {request, requireAuth, Http} = weapp(wx)
+
+// use request API
+request({url: 'https://test.com', method: 'GET'}).then(response => console.log)
+
+// use shortcuts of request API, such as get, post, put, etc.
+request.get('https://test.com').then(response => console.log)
+
+// you can use an all-in-one method
+weapp.requireAuth().then(([code, userInfo]) => console.log)
+
+// use Http client
+const http = Http('https://server.com/api')
+http.get('/path').then(response => console.log)
+
+// use Promise
+Promise.all([...]).then()
 ```
 
-- Isolated Promise polyfill (by [core-js](https://github.com/zloirock/core-js))
+## Wrapped methods
+
+Wraps almost all of official APIs, see [Wrapped methods](./docs/METHODS.md)
+
+## Enhancements
+
+Creates http request shortcuts according to wechat applet declared verbs(RFC 2616). specially, the `PATCH` verb maybe useful for strict RESTful-ist, and so it has defined also.
+
+### `weapp.request`
 
 ```js
-import Promise from 'weapp/dist/promise'
-// or
-import {Promise} from 'weapp'
+import weapp from 'weapp'
+const {request} = weapp(wx)
+
+request.get(url:String [, init:Function])
+request.post(url:String, body:String/Object, [, init:Function])
+request.put(url:String, body:String/Object, [, init:Function])
+request.patch(url:String, body:String/Object, [, init:Function])
+request.delete(url:String [, init:Function])
+request.head(url:String [, init:Function])
+request.options(url:String [, init:Function])
+request.trace(url:String [, init:Function])
+request.connect(url:String [, init:Function])
 ```
 
-- Enhancements for `wx`
+Optional `init` argument is a zero-arugments function to interpolate request parameters, and it expects to return an Object value by contract. you can override any request params by the returned object except the `url` and `method`.
 
-- Optional Grouped APIs:
+```js
+// logic of init function
+const config = {...}
+return {...config, ...init(), url, method}
+```
+
+### `weapp.requireAuth`
+
+> login and getUserInfo in parallel
+
+```js
+import weapp from 'weapp'
+const {request, requireAuth} = weapp(wx)
+
+requireAuth().then(([code, data]) => {
+  return request.post('https://api.server.com/session', {code, data})  
+})
+
+// on server side:
+// 1. to exchange session_key via code,
+// 2. decrypt and store userInfo, and create your app scope session etc.
+```
+
+## Use runtime inspector
+
+A simple inspector function to detect applet runtime features, such as new functions, new globals etc.
+It will report detecting result in the console panel.
+
+```js
+// this is example, you MUST load weapp from 'local file' in wechat applet simulator/runtime.
+import inspect from 'weapp/dist/inspector'
+
+App({
+  onLaunch(){
+    inspect() // take a look at your dev-tool's console.
+  },
+  ......
+})
+```
+
+## Get grouped APIs
+
+In order to get grouped APIs, you just to pass truthy value for the second argument.
+
+```js
+const weapp = require('weapp')(wx, true)
+// equal to
+const weapp = require('weapp').group(wx)
+```
+
+and you will get groups of APIs as following:
 
 ```
 weapp.auth.*
@@ -42,127 +144,22 @@ weapp.storage.*
 weapp.ui.*
 ```
 
-> Visit [es6/wx/definitions.js](./es6/wx/definitions.js) for more details
+> to visit [es6/wx/definitions.js](./es6/wx/definitions.js) for more details about API groups
 
-- RESTful http client
+
+## Use RESTful Http client
 
 ```js
 import weapp from 'weapp'
 
 const http = weapp(wx).Http('https://api.server.com/')
-http.get('/status').then()
-http.post('/status', {data: {}}).then()
-```
-
-## Install
-
-`npm i xixilive/weapp --save-dev`
-
-## Usage
-
-```js
-// import wrapper function from weapp
-import weapp from 'weapp'
-import {Promise} from 'weapp'
-
-// get wrapped wx Object
-const weapp = wrapper(wx)
-
-// use request API
-
-weapp.request({url: 'http://github.com', method: 'GET'})
-  .then(response => console.log)
-  .catch(error => console.error)
-
-// use shortcuts of request API, such as get, post, put, etc.
-weapp.request.get('http://github.com')
-  .then(response => console.log)
-  .catch(error => console.error)
-
-// use init function for request
-weapp.request.get('http://github.com', () => {
-  return {
-    header: {
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-    dataType: 'csv'
-  }
-})
-
-// to query Authentication Info
-weapp.login().then(({code}) => console.log)
-
-weapp.getUserInfo().then(({userInfo, ...}) => console.log)
-
-// you can use an all-in-one method
-weapp.requireAuth().then(([code, userInfo]) => console.log)
-
-
-// use Promise
-Promise.all([]).then()
-```
-
-## Wrapped methods
-
-Wraps almost all of `wx` methods, see [METHODS](./docs/METHODS.md)
-
-## Enhancements
-
-> create shortcuts for request API, according to "WECHAT Applet" declared verbs(RFC 2616).
-
-**NOTE**
-
-The PATCH verb maybe useful for strict RESTful-ist, and so it has defined also.
-
-### `weapp.request`
-
-```js
-weapp.request.get(url:String [, init:Function])
-weapp.request.post(url:String, body:String/Object, [, init:Function])
-weapp.request.put(url:String, body:String/Object, [, init:Function])
-weapp.request.patch(url:String, body:String/Object, [, init:Function])
-weapp.request.delete(url:String [, init:Function])
-weapp.request.head(url:String [, init:Function])
-weapp.request.options(url:String [, init:Function])
-weapp.request.trace(url:String [, init:Function])
-weapp.request.connect(url:String [, init:Function])
-```
-
-### `weapp.requireAuth`
-
-> login and getUserInfo in parallel
-
-```js
-weapp.requireAuth().then(([code, data]) => {
-  return weapp.request.post('https://api.server.com/session', {code, data})  
-})
-
-// on server side:
-// 1. to exchange session_key via code,
-// 2. decrypt and store userInfo, and create your app scope session etc.
-```
-
-## ES6 inspector
-
-A simple inspector function to detect applet runtime features, such as new functions, new globals etc.
-It will report detecting result in the console panel.
-
-### usage
-
-```js
-import inspect from 'weapp/dist/inspector'
-
-App({
-  onLaunch(){
-    inspect() // take a look at your dev-tool's console.
-  },
-  ......
-})
+http.get('/status', {version: '1'}) // /status?version=1
+http.post('/status', {data: {}})
 ```
 
 ## NOTICE
 
-> tl;dr; Wechat Applet only require modules in `app local scope` currently, and so, you must to bundle all external dependencies into your app.
+> wechat applet only load modules in `app local scope` currently, and so, you must to bundle all external dependencies into your app.
 
 It assumes you have a app named `abc` in following structure:
 
@@ -187,7 +184,7 @@ abc/
   |-...
 ```
 
-OBVIOUSLY, abc dependents on my `weapp` :), but you can't to require `weapp` in abc's files directly like this:
+OBVIOUSLY, abc dependents on `weapp` :), but you can't to require `weapp` in abc's files directly like this:
 
 ```js
 // abc/app.js
@@ -234,4 +231,6 @@ import {weapp} from './lib/app.bundle'
 App({....})
 ```
 
-take away, no thanks!
+By the way, I'd write a post about [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (written in chinese)
+
+Take it away, no thanks!
