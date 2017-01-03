@@ -1,5 +1,7 @@
 # weapp
 
+[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp)
+
 封装[微信小程序API](https://mp.weixin.qq.com/debug/wxadoc/dev/api/), 提供符合潮流的, 易于使用的开发接口.
 
 ![weapp-screen-shot](./docs/screen-shot.png)
