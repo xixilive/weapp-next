@@ -12,8 +12,6 @@ Wechat applet official API wrapper, purpose to expose fashionable, friendly and 
 
 - Shortcuts for `wx.request` API
 
-- Runtime inspector (use for dev/simulator only)
-
 - Isolated Promise polyfill (by core-js)
 
 - Enhancements official APIs
@@ -103,23 +101,6 @@ requireAuth().then(([code, data]) => {
 // 2. decrypt and store userInfo, and create your app scope session etc.
 ```
 
-## Use runtime inspector
-
-A simple inspector function to detect applet runtime features, such as new functions, new globals etc.
-It will report detecting result in the console panel.
-
-```js
-// this is example, you MUST load weapp from 'local file' in wechat applet simulator/runtime.
-import inspect from 'weapp/dist/inspector'
-
-App({
-  onLaunch(){
-    inspect() // take a look at your dev-tool's console.
-  },
-  ......
-})
-```
-
 ## Get grouped APIs
 
 In order to get grouped APIs, you just to pass truthy value for the second argument.
@@ -144,7 +125,7 @@ weapp.storage.*
 weapp.ui.*
 ```
 
-> to visit [es6/wx/definitions.js](./es6/weapp/definitions.js) for more details about API groups
+> to visit [es6/weapp/definitions.js](./es6/weapp/definitions.js) for more details about API groups
 
 
 ## Use RESTful Http client
@@ -232,5 +213,3 @@ App({....})
 ```
 
 By the way, I'd write a post about [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (written in chinese)
-
-Take it away, no thanks!

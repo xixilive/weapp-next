@@ -114,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var grouped = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	  var weapp = {
-	    VERSION: ("0.1.4")
+	    VERSION: ("0.2.0")
 	  };
 
 	  var methods = (0, _definitions2.default)(grouped);
@@ -1703,7 +1703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var baseUrl = (base + '/').replace(/\/+$/, '/');
 
 	    var isObject = function isObject(obj) {
-	      if (Object.prototype.toString.call(obj) !== '[object Object]') {
+	      if ({}.toString.call(obj) !== '[object Object]') {
 	        return false;
 	      }
 	      return Object.keys(obj).length > 0;
@@ -1798,7 +1798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.1.4");
+	    var VERSION = ("0.2.0");
 
 	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));

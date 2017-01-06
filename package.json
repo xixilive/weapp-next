@@ -1,11 +1,11 @@
 {
   "name": "weapp",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Wechat applet official API wrapper, purpose to expose fashionable, friendly and fluent programming API.",
   "main": "dist/index.js",
   "scripts": {
     "pretest": "eslint es6",
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "npm test && rimraf dist/* && webpack --progress --colors --config webpack.config.js"
   },
   "repository": {
