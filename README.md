@@ -144,7 +144,7 @@ weapp.storage.*
 weapp.ui.*
 ```
 
-> to visit [es6/wx/definitions.js](./es6/wx/definitions.js) for more details about API groups
+> to visit [es6/wx/definitions.js](./es6/weapp/definitions.js) for more details about API groups
 
 
 ## Use RESTful Http client
