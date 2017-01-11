@@ -1,7 +1,17 @@
 import Promise from '../vendor/promise'
 
-const promisify = (x, method) => (argObj) => {
+const resolveResponse = (response = {}) => {
   return new Promise((resolve, reject) => {
+    if(response.statusCode >= 200 && response.statusCode < 300){
+      resolve(response)
+    }else{
+      reject(response)
+    }
+  })
+}
+
+const promisify = (x, method) => (argObj) => {
+  const promise = new Promise((resolve, reject) => {
     const options = Object.assign({}, argObj, {
       success: resolve,
       fail: reject,
@@ -9,6 +19,8 @@ const promisify = (x, method) => (argObj) => {
     })
     x[method](options)
   })
+
+  return method === 'request' ? promise.then(resolveResponse) : promise
 }
 
 const delegate = (x, method) => (...args) => {

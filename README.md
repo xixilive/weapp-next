@@ -61,9 +61,21 @@ Creates http request shortcuts according to wechat applet declared verbs(RFC 261
 
 ### `weapp.request`
 
+It resolve a response which take a statusCode in range of [200, 300), and reject a response which out of the range.
+
+The resolved response and rejected reason/error is the response object from the native `wx.request`.
+
 ```js
 import weapp from 'weapp'
 const {request} = weapp(wx)
+
+request({url, method: 'GET'})
+  .then(response => {
+    // response is the response object from wx.request
+  })
+  .catch(error => {
+    // error is the response object from wx.request
+  })
 
 request.get(url:String [, init:Function])
 request.post(url:String, body:String/Object, [, init:Function])

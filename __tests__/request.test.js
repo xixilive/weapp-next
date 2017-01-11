@@ -1,16 +1,23 @@
 const weapp = require('../es6/weapp')
 
 describe('Request', () => {
+  const successResponse = {data: 'success', statusCode: 200}
+  const failureResponse = {data: 'fail', statusCode: 300}
+
   describe('via shortcut method:', () => {
     const successMock = jest.fn()
     const failMock = jest.fn()
 
     const mocks = {
       //resolve
-      success: (fn) => successMock.mockReturnValue(fn('success')),
+      success: (fn) => {
+        return successMock.mockReturnValue(fn(successResponse))
+      },
 
       //reject
-      fail: (fn) => failMock.mockReturnValue(fn('fail'))
+      fail: (fn) => {
+        return failMock.mockReturnValue(fn(failureResponse))
+      }
     }
 
     const request = (resolve) => ({success, fail, complete, ...args}) => {
@@ -33,8 +40,7 @@ describe('Request', () => {
         expect(url).toEqual('url')
         expect(method).toEqual(method)
         expect(body).toEqual(withBody ? 'body' : undefined)
-
-        expect(response).toEqual(success ? 'success' : 'fail')
+        expect(response).toEqual(success ? successResponse : failureResponse)
       }
 
       return req[verb](...args)[success ? 'then' : 'catch'](expectResponse)
@@ -46,14 +52,14 @@ describe('Request', () => {
     })
   })
 
-  it('with init function should interprete request params', () => {
+  it('with init function should interpolate request params', () => {
     const mock = jest.fn()
-    const resolve = (fn) => mock.mockReturnValue(fn('success'))
+    const resolve = (fn) => mock.mockReturnValue(fn(successResponse))
     const request = ({success, ...args}) => {
       resolve(success)(args)
     }
     return weapp({request}).request.get('url', () => ({dataType: 'json'})).then(response => {
-      expect(response).toEqual('success')
+      expect(response).toEqual(successResponse)
       const params = mock.mock.calls[0][0]
       expect(params.dataType).toEqual('json')
     })
