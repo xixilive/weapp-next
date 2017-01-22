@@ -22,7 +22,15 @@ Wechat applet official API wrapper, purpose to expose fashionable, friendly and 
 
 ## Install
 
-`npm i xixilive/weapp --save-dev`
+```
+# via Github
+npm i xixilive/weapp --save-dev
+```
+
+```
+# via npm
+npm i weapp-next --save-dev
+```
 
 ## Usage
 

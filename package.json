@@ -1,5 +1,5 @@
 {
-  "name": "weapp",
+  "name": "weapp-next",
   "version": "0.2.1",
   "description": "Wechat applet official API wrapper, purpose to expose fashionable, friendly and fluent programming API.",
   "main": "dist/index.js",
@@ -16,7 +16,9 @@
     "wechat",
     "wexin",
     "微信小程序",
-    "weapp"
+    "weapp",
+    "es6",
+    "es-next"
   ],
   "author": "xixilive@gmail.com",
   "license": "MIT",
