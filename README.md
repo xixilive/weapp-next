@@ -121,6 +121,8 @@ requireAuth().then(([code, data]) => {
 // 2. decrypt and store userInfo, and create your app scope session etc.
 ```
 
+Here is a Express middleware for weapp login scenario which purpose to make it easy to integrate weapp login and getUserInfo logic. [express-weapp-auth](https://github.com/xixilive/express-weapp-auth)
+
 ## Get grouped APIs
 
 In order to get grouped APIs, you just to pass truthy value for the second argument.
@@ -158,78 +160,6 @@ http.get('/status', {version: '1'}) // /status?version=1
 http.post('/status', {data: {}})
 ```
 
-## NOTICE
+## Moduling weapp development (TL;DW)
 
-> wechat applet only load modules in `app local scope` currently, and so, you must to bundle all external dependencies into your app.
-
-It assumes you have a app named `abc` in following structure:
-
-```
-abc/
-  |-es6/
-     |- app.js
-  |-node_modules/
-     |- weapp
-     |- ...
-  |-pages/
-      |- start
-        |- start.js
-        |- start.json
-        |- start.wxml
-        |- start.wxss
-      |- ...
-  |-app.js
-  |-app.json
-  |-app.wxss
-  |-package.json
-  |-...
-```
-
-OBVIOUSLY, abc dependents on `weapp` :), but you can't to require `weapp` in abc's files directly like this:
-
-```js
-// abc/app.js
-import weapp from 'weapp'
-
-App({...})
-
-// throw! throw! throw `module 'weapp.js' is not defined` at runtime
-```
-
-You should require `weapp` in your `local files` in this approach.
-
-```js
-// abc/es6/app.js
-import weapp from 'weapp'
-
-export {weapp}
-```
-
-and build `abc/es6` into a bundle module, then you can require your bundle version in wechat applet code. I favoured [webpack](https://webpack.github.io/) for this.
-
-```js
-// webpack.config.js
-
-module.exports = {
-  ...,
-  entry: {
-    'app': './es6/app.js'
-  },
-  output: {
-    path: path.join(__dirname, 'lib'),
-    filename: '[name].bundle.js',
-    libraryTarget: 'umd'
-  },
-  ...
-}
-```
-
-require bundle in applet code:
-
-```js
-import {weapp} from './lib/app.bundle'
-
-App({....})
-```
-
-By the way, I'd write a post about [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (written in chinese)
+ [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (chinese)
