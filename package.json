@@ -1,7 +1,7 @@
 {
   "name": "weapp-next",
   "version": "0.2.1",
-  "description": "Wechat applet official API wrapper, purpose to expose fashionable, friendly and fluent programming API.",
+  "description": "Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.",
   "main": "dist/index.js",
   "scripts": {
     "pretest": "eslint es6",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/xixilive/weapp.git"
+    "url": "git+ssh://git@github.com/xixilive/weapp-next.git"
   },
   "keywords": [
     "wechat",
@@ -23,9 +23,9 @@
   "author": "xixilive@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xixilive/weapp/issues"
+    "url": "https://github.com/xixilive/weapp-next/issues"
   },
-  "homepage": "https://github.com/xixilive/weapp#readme",
+  "homepage": "https://github.com/xixilive/weapp-next#readme",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",

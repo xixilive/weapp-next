@@ -1,8 +1,8 @@
-# weapp
+# weapp-next
 
-Wechat applet official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
+Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
-[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp)
+[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp-next)
 
 ![weapp-screen-shot](./docs/screen-shot.png)
 
@@ -24,7 +24,7 @@ Wechat applet official API wrapper, purpose to expose fashionable, friendly and 
 
 ```
 # via Github
-npm i xixilive/weapp --save-dev
+npm i xixilive/weapp-next --save-dev
 ```
 
 ```
@@ -34,10 +34,10 @@ npm i weapp-next --save-dev
 
 ## Usage
 
-`weapp` use UMD module system, you can load it in Commonjs or AMD format.
+`weapp-next` use UMD module system, you can load it in Commonjs or AMD format.
 
 ```js
-import weapp, {Promise} from 'weapp'
+import weapp, {Promise} from 'weapp-next'
 
 // get wrapped wx Object
 const {request, requireAuth, Http} = weapp(wx)
@@ -74,7 +74,7 @@ It resolve a response which take a statusCode in range of [200, 300), and reject
 The resolved response and rejected reason/error is the response object from the native `wx.request`.
 
 ```js
-import weapp from 'weapp'
+import weapp from 'weapp-next'
 const {request} = weapp(wx)
 
 request({url, method: 'GET'})
@@ -109,7 +109,7 @@ return {...config, ...init(), url, method}
 > login and getUserInfo in parallel
 
 ```js
-import weapp from 'weapp'
+import weapp from 'weapp-next'
 const {request, requireAuth} = weapp(wx)
 
 requireAuth().then(([code, data]) => {
@@ -128,9 +128,9 @@ Here is a Express middleware for weapp login scenario which purpose to make it e
 In order to get grouped APIs, you just to pass truthy value for the second argument.
 
 ```js
-const weapp = require('weapp')(wx, true)
+const weapp = require('weapp-next')(wx, true)
 // equal to
-const weapp = require('weapp').group(wx)
+const weapp = require('weapp-next').group(wx)
 ```
 
 and you will get groups of APIs as following:
@@ -153,7 +153,7 @@ weapp.ui.*
 ## Use RESTful Http client
 
 ```js
-import weapp from 'weapp'
+import weapp from 'weapp-next'
 
 const http = weapp(wx).Http('https://api.server.com/')
 http.get('/status', {version: '1'}) // /status?version=1
