@@ -2,7 +2,7 @@
 
 Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
-[![Build Status](https://travis-ci.org/xixilive/weapp.svg?branch=master)](https://travis-ci.org/xixilive/weapp-next)
+[![Build Status](https://travis-ci.org/xixilive/weapp-next.svg?branch=master)](https://travis-ci.org/xixilive/weapp-next)
 
 ![weapp-screen-shot](./docs/screen-shot.png)
 
