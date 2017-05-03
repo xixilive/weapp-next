@@ -83,12 +83,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var Promise = __webpack_require__(5);
+	var promise = void 0;
+	if ('undefined' !== typeof Promise) {
+	  promise = Promise;
+	} else {
+	  console.warn('Promise vendor was depreciated, and will be remove in next release');
+	  promise = __webpack_require__(5);
+	  // flag for inspector
+	  promise.__polyfill__ = 'core-js';
+	}
 
-	// flag for inspector
-	Promise.__polyfill__ = 'core-js';
-
-	exports.default = Promise;
+	exports.default = promise;
 	module.exports = exports['default'];
 
 /***/ },

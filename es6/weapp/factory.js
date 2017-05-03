@@ -27,7 +27,19 @@ const delegate = (x, method) => (...args) => {
   return x[method](...args)
 }
 
+// callback or promise
+const callback = (x, method) => (cb) => {
+  if('function' === typeof cb){
+    return x[method](cb)
+  }
+
+  return new Promise((resolve) => {
+    x[method](resolve)
+  })
+}
+
 export default {
   promisify,
-  delegate
+  delegate,
+  callback
 }

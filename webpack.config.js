@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-var version = require('./package.json').version
+var pkg = require('./package.json')
 module.exports = {
   devtool: null,
 
@@ -8,8 +8,7 @@ module.exports = {
 
   entry: {
     'index': './index',
-    'promise': './promise',
-    'inspector': './inspector'
+    'promise': './promise'
   },
 
   output: {
@@ -38,7 +37,8 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'VERSION': JSON.stringify(version)
+        'VERSION': JSON.stringify(pkg.version),
+        'API_VERSION': JSON.stringify(pkg.apiVersion)
       }
     })
   ]

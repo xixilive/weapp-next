@@ -52,13 +52,41 @@ const methods = [
   'createMapContext',
   'getSystemInfo',
   'getSystemInfoSync',
+  'canIUse',
   'getNetworkType',
+  'onNetworkStatusChange',
   'onAccelerometerChange',
+  'startAccelerometer',
+  'stopAccelerometer',
   'onCompassChange',
+  'startCompass',
+  'stopCompass',
   'makePhoneCall',
   'scanCode',
+  'setClipboardData',
+  'getClipboardData',
+  'openBluetoothAdapter',
+  'closeBluetoothAdapter',
+  'getBluetoothAdapterState',
+  'onBluetoothAdapterStateChange',
+  'startBluetoothDevicesDiscovery',
+  'stopBluetoothDevicesDiscovery',
+  'getBluetoothDevices',
+  'getConnectedBluetoothDevices',
+  'onBluetoothDeviceFound',
+  'createBLEConnection',
+  'closeBLEConnection',
+  'onBLEConnectionStateChange',
+  'getBLEDeviceServices',
+  'getBLEDeviceCharacteristics',
+  'readBLECharacteristicValue',
+  'writeBLECharacteristicValue',
+  'notifyBLECharacteristicValueChange',
+  'onBLECharacteristicValueChange',
   'showToast',
+  'showLoading',
   'hideToast',
+  'hideLoading',
   'showModal',
   'showActionSheet',
   'setNavigationBarTitle',
@@ -68,57 +96,86 @@ const methods = [
   'redirectTo',
   'switchTab',
   'navigateBack',
+  'reLaunch',
   'createAnimation',
   'createCanvasContext',
   'createContext',
   'drawCanvas',
   'canvasToTempFilePath',
   'stopPullDownRefresh',
+  'getExtConfig',
+  'getExtConfigSync',
   'login',
   'checkSession',
   'getUserInfo',
-  'requestPayment'
+  'requestPayment',
+  'chooseAddress',
+  'addCard',
+  'openCard',
+  'openSetting',
+  'arrayBufferToBase64',
+  'base64ToArrayBuffer'
 ]
 
 const groups = {
   'auth': [
-    "checkSession", "getUserInfo", "login"
+    'checkSession', 'getUserInfo', 'login'
   ],
   'device': [
-    "getNetworkType", "getSystemInfo", "getSystemInfoSync",
-    "makePhoneCall", "onAccelerometerChange", "onCompassChange", "scanCode"
+    'getNetworkType', 'getSystemInfo', 'getSystemInfoSync', 'canIUse',
+    'onNetworkStatusChange', 'onAccelerometerChange', 'startAccelerometer',
+    'stopAccelerometer', 'startCompass', 'stopCompass',
+    'makePhoneCall', 'onAccelerometerChange', 'onCompassChange', 'scanCode',
+    'setClipboardData', 'getClipboardData', 'openBluetoothAdapter',
+    'closeBluetoothAdapter', 'getBluetoothAdapterState',
+    'onBluetoothAdapterStateChange', 'startBluetoothDevicesDiscovery',
+    'stopBluetoothDevicesDiscovery', 'getBluetoothDevices',
+    'getConnectedBluetoothDevices', 'onBluetoothDeviceFound',
+    'createBLEConnection', 'closeBLEConnection', 'onBLEConnectionStateChange',
+    'getBLEDeviceServices', 'getBLEDeviceCharacteristics',
+    'readBLECharacteristicValue', 'writeBLECharacteristicValue',
+    'notifyBLECharacteristicValueChange', 'onBLECharacteristicValueChange'
   ],
   'file': [
-    "downloadFile", "getSavedFileInfo", "getSavedFileList", "openDocument",
-    "removeSavedFile", "saveFile", "uploadFile"
+    'downloadFile', 'getSavedFileInfo', 'getSavedFileList', 'openDocument',
+    'removeSavedFile', 'saveFile', 'uploadFile'
   ],
   'geo' : [
-    "chooseLocation", "createMapContext", "getLocation", "openLocation"
+    'chooseLocation', 'createMapContext', 'getLocation', 'openLocation'
   ],
   'media': [
-    "chooseImage", "chooseVideo", "createAudioContext", "createVideoContext",
-    "getBackgroundAudioPlayerState", "getImageInfo", "onBackgroundAudioPause",
-    "onBackgroundAudioPlay", "onBackgroundAudioStop", "pauseBackgroundAudio",
-    "pauseVoice", "playBackgroundAudio", "playVoice", "previewImage",
-    "seekBackgroundAudio", "startRecord", "stopBackgroundAudio",
-    "stopRecord", "stopVoice"
+    'chooseImage', 'chooseVideo', 'createAudioContext', 'createVideoContext',
+    'getBackgroundAudioPlayerState', 'getImageInfo', 'onBackgroundAudioPause',
+    'onBackgroundAudioPlay', 'onBackgroundAudioStop', 'pauseBackgroundAudio',
+    'pauseVoice', 'playBackgroundAudio', 'playVoice', 'previewImage',
+    'seekBackgroundAudio', 'startRecord', 'stopBackgroundAudio',
+    'stopRecord', 'stopVoice'
   ],
   'net': [
-    "closeSocket", "connectSocket", "onSocketClose", "onSocketError",
-    "onSocketMessage", "onSocketOpen", "request", "sendSocketMessage"
+    'closeSocket', 'connectSocket', 'onSocketClose', 'onSocketError',
+    'onSocketMessage', 'onSocketOpen', 'request', 'sendSocketMessage'
   ],
-  'payment': ["requestPayment"],
+  'payment': ['requestPayment'],
   'storage': [
-    "clearStorage", "clearStorageSync", "getStorage", "getStorageInfo",
-    "getStorageInfoSync", "getStorageSync", "removeStorage",
-    "removeStorageSync", "setStorage", "setStorageSync"
+    'clearStorage', 'clearStorageSync', 'getStorage', 'getStorageInfo',
+    'getStorageInfoSync', 'getStorageSync', 'removeStorage',
+    'removeStorageSync', 'setStorage', 'setStorageSync'
   ],
   'ui': [
-    "canvasToTempFilePath", "createAnimation", "createCanvasContext",
-    "createContext", "drawCanvas", "hideNavigationBarLoading", "hideToast",
-    "navigateBack", "navigateTo", "redirectTo", "setNavigationBarTitle",
-    "showActionSheet", "showModal", "showNavigationBarLoading", "showToast",
-    "stopPullDownRefresh", "switchTab"
+    'canvasToTempFilePath', 'createAnimation', 'createCanvasContext',
+    'createContext', 'drawCanvas', 'hideNavigationBarLoading', 'hideToast',
+    'navigateBack', 'navigateTo', 'redirectTo', 'setNavigationBarTitle',
+    'showActionSheet', 'showModal', 'showNavigationBarLoading', 'showToast',
+    'stopPullDownRefresh', 'switchTab', 'showLoading', 'hideLoading', 'reLaunch'
+  ],
+  'thirdparty': [
+    'getExtConfig', 'getExtConfigSync'
+  ],
+  'setting': [
+    'chooseAddress', 'addCard', 'openCard', 'openSetting'
+  ],
+  'utils': [
+    'arrayBufferToBase64', 'base64ToArrayBuffer'
   ]
 }
 

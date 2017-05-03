@@ -12,7 +12,8 @@ const wrapMethods = (dest, src, methods) => {
 
 function wxWrapper(x, grouped = false){
   const weapp = {
-    VERSION: process.env.VERSION
+    VERSION: process.env.VERSION,
+    API_VERSION: process.env.API_VERSION
   }
 
   const methods = getMethods(grouped)

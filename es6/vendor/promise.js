@@ -1,6 +1,11 @@
-const Promise = require('core-js/library/es6/promise')
+let promise
+if('undefined' !== typeof Promise){
+  promise = Promise
+}else{
+  console.warn('Promise vendor was depreciated, and will be remove in next release')
+  promise = require('core-js/library/es6/promise')
+  // flag for inspector
+  promise.__polyfill__ = 'core-js'
+}
 
-// flag for inspector
-Promise.__polyfill__ = 'core-js'
-
-export default Promise
+export default promise
