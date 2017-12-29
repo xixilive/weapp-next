@@ -1,3 +1,7 @@
+# v0.4.1
+
+- fix overwrite wrappers
+
 # v0.4.0
 
 > Official wx version 1.7.0

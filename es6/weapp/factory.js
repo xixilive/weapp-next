@@ -49,7 +49,10 @@ wrappers.overwrite = (x, method, {methods}) => {
       if('function' !== typeof fn){
         throw new Error(`unknown warpper function: ${methods[im]}`)
       }
-      instance[im] = fn(instance, im)
+      const ofn = instance[im].bind(instance)
+      instance[im] = (obj) => new Promise((resolve, reject) => {
+        ofn(Object.assign({}, obj, {success: resolve, fail: reject, complete: null}))
+      })
     }
     return instance
   }

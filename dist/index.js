@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function wxWrapper(x) {
 	  var weapp = {
-	    VERSION: ("0.4.0"),
+	    VERSION: ("0.4.1"),
 	    API_VERSION: ("1.7.0")
 	  };
 
@@ -338,12 +338,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var xfn = x[method];
 	  return function () {
 	    var instance = xfn.apply(undefined, arguments);
-	    for (var im in methods) {
+
+	    var _loop = function _loop(im) {
 	      var fn = wrappers[methods[im]];
 	      if ('function' !== typeof fn) {
 	        throw new Error('unknown warpper function: ' + methods[im]);
 	      }
-	      instance[im] = fn(instance, im);
+	      var ofn = instance[im].bind(instance);
+	      instance[im] = function (obj) {
+	        return new Promise(function (resolve, reject) {
+	          ofn(Object.assign({}, obj, { success: resolve, fail: reject, complete: null }));
+	        });
+	      };
+	    };
+
+	    for (var im in methods) {
+	      _loop(im);
 	    }
 	    return instance;
 	  };
@@ -454,7 +464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.4.0");
+	    var VERSION = ("0.4.1");
 
 	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));
