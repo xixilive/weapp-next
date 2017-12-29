@@ -1,45 +1,58 @@
-import Promise from '../vendor/promise'
-
-const resolveResponse = (response = {}) => {
-  return new Promise((resolve, reject) => {
-    if(response.statusCode >= 200 && response.statusCode < 300){
-      resolve(response)
-    }else{
-      reject(response)
-    }
-  })
+const resolveResponse = (res = {}) => {
+  const isValidStatus = res.statusCode >= 200 && res.statusCode < 300
+  return isValidStatus ? Promise.resolve(res) : Promise.reject(res)
 }
 
-const promisify = (x, method) => (argObj) => {
-  const promise = new Promise((resolve, reject) => {
-    const options = Object.assign({}, argObj, {
-      success: resolve,
-      fail: reject,
-      complete: null
+const getResolver = (method) => {
+  if(method === 'request'){
+    return resolveResponse
+  }
+}
+
+const wrappers = {}
+wrappers.promisify = (x, method) => {
+  const xfn = x[method]
+  return function(obj){
+    const promise = new Promise((resolve, reject) => {
+      xfn(Object.assign({}, obj, {success: resolve, fail: reject, complete: null}))
     })
-    x[method](options)
-  })
-
-  return method === 'request' ? promise.then(resolveResponse) : promise
+    const resolver = getResolver(method)
+    return resolver ? promise.then(resolver) : promise
+  }
 }
 
-const delegate = (x, method) => (...args) => {
-  return x[method](...args)
+wrappers.delegate = (x, method) => {
+  const xfn = x[method]
+  return function(...args){
+    return xfn(...args)
+  }
 }
 
 // callback or promise
-const callback = (x, method) => (cb) => {
-  if('function' === typeof cb){
-    return x[method](cb)
+wrappers.callback = (x, method) => {
+  const xfn = x[method]
+  return function(cb){
+    if('function' === typeof cb){
+      return xfn(cb)
+    }
+    return new Promise((resolve) => xfn(resolve))
   }
-
-  return new Promise((resolve) => {
-    x[method](resolve)
-  })
 }
 
-export default {
-  promisify,
-  delegate,
-  callback
+// overwrite
+wrappers.overwrite = (x, method, {methods}) => {
+  const xfn = x[method]
+  return function(...args){
+    const instance = xfn(...args)
+    for(let im in methods){
+      const fn = wrappers[methods[im]]
+      if('function' !== typeof fn){
+        throw new Error(`unknown warpper function: ${methods[im]}`)
+      }
+      instance[im] = fn(instance, im)
+    }
+    return instance
+  }
 }
+
+export default wrappers

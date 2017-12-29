@@ -1,0 +1,20 @@
+const weapp = require('../../es6/weapp')
+
+describe('Promisify wrapper', () => {
+  <% _.forEach(methods, function(method){ %>
+  describe('API.<%= method.name %>', () =>{
+    const wx = {
+      <%= method.name %>: jest.fn()
+    }
+
+    const origin = wx.<%= method.name %>
+    const api = weapp(wx).<%= method.name %>
+
+    it('should return a promise object', () => {
+      const ret = api()
+      expect(Object.prototype.toString.call(ret)).toEqual('[object Promise]')
+      expect(origin).toHaveBeenCalled()
+    })
+  })
+  <% }) %>
+})

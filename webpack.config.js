@@ -7,8 +7,7 @@ module.exports = {
   context: path.join(__dirname, 'es6'),
 
   entry: {
-    'index': './index',
-    'promise': './promise'
+    'index': './index'
   },
 
   output: {

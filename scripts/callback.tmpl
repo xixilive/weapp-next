@@ -1,0 +1,26 @@
+const weapp = require('../../es6/weapp')
+
+describe('Callback wrapper', () => {
+  <% _.forEach(methods, method =>{ %>
+  describe('API.<%= method.name %>', () =>{
+    const wx = {
+      <%= method.name %>: jest.fn().mockReturnValue('RETURN')
+    }
+
+    const origin = wx.<%= method.name %>
+    const api = weapp(wx).<%= method.name %>
+
+    it('should return a promise object', () => {
+      const ret = api()
+      expect(Object.prototype.toString.call(ret)).toEqual('[object Promise]')
+      expect(origin).toHaveBeenCalled()
+    })
+
+    it('should return origin\'s returnValue', () => {
+      const ret = api(() => {})
+      expect(ret).toEqual('RETURN')
+      expect(origin).toHaveBeenCalled()
+    })
+  })
+  <% }) %>
+})

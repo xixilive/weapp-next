@@ -51,4 +51,15 @@ weapp.onBluetoothDeviceFound().then(devices => {
 
 ```
 
+## Overwrite
+
+create instance, and promisify instance methods.
+
+```js
+import weapp from 'weapp-next'
+
+const camera = weapp.createCameraContext()
+camera.takePhoto('high').then(...)
+```
+
 For more details, please read [es6/weapp/definitions.js](../es6/weapp/definitions.js)

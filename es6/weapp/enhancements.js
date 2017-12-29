@@ -1,5 +1,3 @@
-import Promise from '../vendor/promise'
-
 const shortcut = (request, method) => (url, body, init) => {
   const config = {}
   if(typeof body === 'function'){

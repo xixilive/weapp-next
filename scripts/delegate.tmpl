@@ -1,0 +1,20 @@
+const weapp = require('../../es6/weapp')
+
+describe('Delegate wrapper', () => {
+  <% _.forEach(methods, method =>{ %>
+  describe('API.<%= method.name %>', () =>{
+    const wx = {
+      <%= method.name %>: jest.fn().mockReturnValue('RETURN')
+    }
+
+    const origin = wx.<%= method.name %>
+    const api = weapp(wx).<%= method.name %>
+
+    it('should delegate to origin', () => {
+      const ret = api()
+      expect(ret).toEqual('RETURN')
+      expect(origin).toHaveBeenCalled()
+    })
+  })
+  <% }) %>
+})

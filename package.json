@@ -1,12 +1,13 @@
 {
   "name": "weapp-next",
-  "version": "0.3.0",
-  "apiVersion": "1.1.0",
+  "version": "0.4.0",
+  "apiVersion": "1.7.0",
   "description": "Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.",
   "main": "dist/index.js",
   "scripts": {
     "pretest": "eslint es6",
     "test": "jest --coverage",
+    "generate": "node -r babel-register ./scripts/generater.js",
     "build": "npm test && rimraf dist/* && webpack --progress --colors --config webpack.config.js"
   },
   "repository": {
@@ -39,6 +40,7 @@
     "core-js": "^2.4.1",
     "eslint": "^3.12.2",
     "jest-cli": "^18.0.0",
+    "lodash": "^4.17.4",
     "rimraf": "^2.5.4",
     "webpack": "^1.14.0"
   },

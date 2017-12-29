@@ -1,0 +1,31 @@
+const weapp = require('../../es6/weapp')
+
+describe('Overwrite wrapper222', () => {
+  <% _.forEach(methods, function(method){ %>
+  describe('API.<%= method.name %>', () =>{
+    const mockInstance = {
+    <% _.forEach(method.methods, function(v, k){ %>
+    <%= k %>: (o) => o.success('success'),
+    <% }) %>
+    }
+
+    const wx = {
+      <%- method.name %>: jest.fn().mockReturnValue(mockInstance)
+    }
+
+    const origin = wx.<%= method.name %>
+    const api = weapp(wx).<%= method.name %>
+
+    describe('instance methods call', () => {
+      const instance = api()
+      <% _.forEach(method.methods, function(v, k){ %>
+      it('#<%= k %>', () => {
+        return instance.<%= k %>().then(result => {
+          expect(result).toEqual('success')
+        })
+      })
+      <% }) %>
+    })
+  })
+  <% }) %>
+})

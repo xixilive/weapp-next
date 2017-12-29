@@ -12,11 +12,7 @@ Weapp(微信小程序) official API wrapper, purpose to expose fashionable, frie
 
 - Shortcuts for `wx.request` API
 
-- Isolated Promise polyfill (by core-js)
-
 - Enhancements official APIs
-
-- Optional grouped APIs:
 
 - RESTful http client
 
@@ -122,33 +118,6 @@ requireAuth().then(([code, data]) => {
 ```
 
 Here is a Express middleware for weapp login scenario which purpose to make it easy to integrate weapp login and getUserInfo logic. [express-weapp-auth](https://github.com/xixilive/express-weapp-auth)
-
-## Get grouped APIs
-
-In order to get grouped APIs, you just to pass truthy value for the second argument.
-
-```js
-const weapp = require('weapp-next')(wx, true)
-// equal to
-const weapp = require('weapp-next').group(wx)
-```
-
-and you will get groups of APIs as following:
-
-```
-weapp.auth.*
-weapp.device.*
-weapp.file.*
-weapp.geo.*
-weapp.media.*
-weapp.net.*
-weapp.payment.*
-weapp.storage.*
-weapp.ui.*
-```
-
-> to visit [es6/weapp/definitions.js](./es6/weapp/definitions.js) for more details about API groups
-
 
 ## Use RESTful Http client
 

@@ -1,0 +1,11 @@
+.DS_Store
+*.yml
+*.log
+.babelrc
+.eslintrc
+webpack.config.js
+__tests__
+coverage/
+docs/
+es6/
+scripts/
