@@ -38,7 +38,7 @@ function shortcutRequest(req){
 }
 
 function requireAuth(login, getUserInfo){
-  return () => Promise.all([login(), getUserInfo()])
+  return (options) => Promise.all([login(), getUserInfo(options || {})])
 }
 
 export {
