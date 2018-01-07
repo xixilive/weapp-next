@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function wxWrapper(x) {
 	  var weapp = {
-	    VERSION: ("0.4.1"),
+	    VERSION: ("0.4.2"),
 	    API_VERSION: ("1.7.0")
 	  };
 
@@ -460,11 +460,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (body !== undefined) {
-	      Object.assign(config, { body: body });
+	      Object.assign(config, { data: body });
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.4.1");
+	    var VERSION = ("0.4.2");
 
 	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));
@@ -486,8 +486,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function requireAuth(login, getUserInfo) {
-	  return function () {
-	    return Promise.all([login(), getUserInfo()]);
+	  return function (options) {
+	    return Promise.all([login(), getUserInfo(options || {})]);
 	  };
 	}
 

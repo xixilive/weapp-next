@@ -36,10 +36,10 @@ describe('Request', () => {
       const args = withBody ? ['url', 'body'] : ['url']
       const expectResponse = (response) => {
         const calls = success ? successMock.mock.calls : failMock.mock.calls
-        const {url, method, body} = calls.slice(-1)[0][0]
+        const {url, method, data} = calls.slice(-1)[0][0]
         expect(url).toEqual('url')
         expect(method).toEqual(method)
-        expect(body).toEqual(withBody ? 'body' : undefined)
+        expect(data).toEqual(withBody ? 'body' : undefined)
         expect(response).toEqual(success ? successResponse : failureResponse)
       }
 

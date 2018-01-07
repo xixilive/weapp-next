@@ -14,7 +14,7 @@ const shortcut = (request, method) => (url, body, init) => {
   }
 
   if(body !== undefined){
-    Object.assign(config, {body})
+    Object.assign(config, {data: body})
   }
 
   const {header} = config
