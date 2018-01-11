@@ -2,6 +2,10 @@
 
 Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
+### 风险提示
+
+小程序核心库变动较快, 时间有限, 不能紧跟核心库的更新, 目前的封装的核心库版本是1.7.0. 引用本package可能因核心库变动带来不兼容的问题, 请谨慎使用.
+
 [![Build Status](https://travis-ci.org/xixilive/weapp-next.svg?branch=master)](https://travis-ci.org/xixilive/weapp-next)
 
 ![weapp-screen-shot](./docs/screen-shot.png)

@@ -1,5 +1,5 @@
 // req: wrapped wx.request
-const Http = (req) => (base) => {
+const Http = (req) => (base, init) => {
   const baseUrl = `${base}/`.replace(/\/+$/, '/')
 
   const isObject = (obj) => {
@@ -29,12 +29,14 @@ const Http = (req) => (base) => {
 
   const requestWithParams = (method) => (path, params) => {
     const url = buildUrl(path, params)
-    return req[method](url)
+    const fn = req[method]
+    return init ? fn(url, init) : fn(url)
   }
 
   const requestWithBody = (method) => (path, body, params = null) => {
     const url = buildUrl(path, params)
-    return req[method](url, body)
+    const fn = req[method]
+    return init ? fn(url, (body ? body : init), init) : fn(url, body)
   }
 
   return {

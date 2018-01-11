@@ -40,3 +40,29 @@ describe('Http', () => {
   it('PUT', reqWithBody('put'))
   it('PATCH', reqWithBody('patch'))
 })
+
+describe('Http with init function', () => {
+  const http = Http(req)('https://base.url', 'init')
+
+  const reqWithParams = (verb) => () => {
+    const method = http[verb]
+    const mock = req[verb]
+    method('/path')
+    expect(mock).toHaveBeenCalledWith('https://base.url/path', 'init')
+  }
+
+  const reqWithBody = (verb) => () => {
+    const method = http[verb]
+    const mock = req[verb]
+    method('/path')
+    expect(mock).toHaveBeenCalledWith('https://base.url/path', 'init', 'init')
+  }
+
+  it('GET', reqWithParams('get'))
+  it('DELETE', reqWithParams('delete'))
+  it('HEAD', reqWithParams('head'))
+
+  it('POST', reqWithBody('post'))
+  it('PUT', reqWithBody('put'))
+  it('PATCH', reqWithBody('patch'))
+})
