@@ -1,5 +1,7 @@
 # weapp-next
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xixilive/weapp-next.svg)](https://greenkeeper.io/)
+
 Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
 ### 风险提示
