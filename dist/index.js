@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function wxWrapper(x) {
 	  var weapp = {
-	    VERSION: ("0.4.2"),
+	    VERSION: ("0.4.4"),
 	    API_VERSION: ("1.7.0")
 	  };
 
@@ -373,7 +373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	// req: wrapped wx.request
 	var Http = function Http(req) {
-	  return function (base) {
+	  return function (base, init) {
 	    var baseUrl = (base + '/').replace(/\/+$/, '/');
 
 	    var isObject = function isObject(obj) {
@@ -407,7 +407,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var requestWithParams = function requestWithParams(method) {
 	      return function (path, params) {
 	        var url = buildUrl(path, params);
-	        return req[method](url);
+	        var fn = req[method];
+	        return init ? fn(url, init) : fn(url);
 	      };
 	    };
 
@@ -416,7 +417,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 	        var url = buildUrl(path, params);
-	        return req[method](url, body);
+	        var fn = req[method];
+	        return init ? fn(url, body ? body : init, init) : fn(url, body);
 	      };
 	    };
 
@@ -464,7 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.4.2");
+	    var VERSION = ("0.4.4");
 
 	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));
