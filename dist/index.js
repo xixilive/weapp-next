@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function wxWrapper(x) {
 	  var weapp = {
-	    VERSION: ("0.4.4"),
+	    VERSION: ("0.4.5"),
 	    API_VERSION: ("1.7.0")
 	  };
 
@@ -445,6 +445,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var shortcut = function shortcut(request, method) {
 	  return function (url, body, init) {
 	    var config = {};
@@ -466,9 +473,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var header = config.header;
-	    var VERSION = ("0.4.4");
+	    var VERSION = ("0.4.5");
 
-	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'v' + VERSION });
+	    config.header = Object.assign({}, header, { 'X-Wrapped-With': 'weapp-next v' + VERSION });
 	    return request(Object.assign(config, { url: url, method: method }));
 	  };
 	};
@@ -488,8 +495,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function requireAuth(login, getUserInfo) {
-	  return function (options) {
-	    return Promise.all([login(), getUserInfo(options || {})]);
+	  return function () {
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { withCredential: true };
+
+	    return Promise.all([login(), getUserInfo(options)]).then(function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	          code = _ref2[0],
+	          ui = _ref2[1];
+
+	      /* eslint no-unused-vars:0 */
+	      var errMsg = ui.errMsg,
+	          data = _objectWithoutProperties(ui, ['errMsg']);
+
+	      return _extends({}, data, { code: code.code });
+	    });
 	  };
 	}
 
