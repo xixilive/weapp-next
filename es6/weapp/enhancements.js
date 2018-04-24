@@ -19,7 +19,7 @@ const shortcut = (request, method) => (url, body, init) => {
 
   const {header} = config
   const {VERSION} = process.env
-  config.header = Object.assign({}, header, {'X-Wrapped-With': `v${VERSION}`})
+  config.header = Object.assign({}, header, {'X-Wrapped-With': `weapp-next v${VERSION}`})
   return request(Object.assign(config, {url, method}))
 }
 
@@ -38,7 +38,16 @@ function shortcutRequest(req){
 }
 
 function requireAuth(login, getUserInfo){
-  return (options) => Promise.all([login(), getUserInfo(options || {})])
+  return (options = {withCredential: true}) => {
+    return Promise.all([
+      login(),
+      getUserInfo(options)
+    ]).then(([code, ui]) => {
+      /* eslint no-unused-vars:0 */
+      const {errMsg, ...data} = ui
+      return {...data, code: code.code}
+    })
+  }
 }
 
 export {
