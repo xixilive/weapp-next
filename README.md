@@ -112,8 +112,8 @@ return {...config, ...init(), url, method}
 import weapp from 'weapp-next'
 const {request, requireAuth} = weapp(wx)
 
-requireAuth().then(([code, data]) => {
-  return request.post('https://api.server.com/session', {code, data})  
+requireAuth().then(({code, userInfo, vi, ...}) => {
+  return request.post('https://api.server.com/session', {code, userInfo, vi, ...})
 })
 
 // on server side:
