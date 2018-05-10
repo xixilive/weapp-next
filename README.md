@@ -2,10 +2,6 @@
 
 Weapp(微信小程序) official API wrapper, purpose to expose fashionable, friendly and fluent programming API.
 
-### 风险提示
-
-小程序核心库变动较快, 时间有限, 不能紧跟核心库的更新, 目前的封装的核心库版本是1.7.0. 引用本package可能因核心库变动带来不兼容的问题, 请谨慎使用.
-
 [![Build Status](https://travis-ci.org/xixilive/weapp-next.svg?branch=master)](https://travis-ci.org/xixilive/weapp-next)
 
 ![weapp-screen-shot](./docs/screen-shot.png)
@@ -65,11 +61,11 @@ Wraps almost all of official APIs, see [Wrapped methods](./docs/METHODS.md)
 
 ## Enhancements
 
-Creates http request shortcuts according to wechat applet declared verbs(RFC 2616). specially, the `PATCH` verb maybe useful for strict RESTful-ist, and so it has defined also.
+Create http request shortcuts according to wechat mini-program declared verbs(RFC 2616). specially, the `PATCH` verb maybe useful for strict RESTful-ist, and so it has defined also.
 
 ### `weapp.request`
 
-It resolve a response which take a statusCode in range of [200, 300), and reject a response which out of the range.
+It resolves a response which take a statusCode in range of [200, 300), and reject a response which out of the range.
 
 The resolved response and rejected reason/error is the response object from the native `wx.request`.
 
@@ -136,3 +132,12 @@ http.post('/status', {data: {}})
 ## Moduling weapp development (TL;DW)
 
  [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (chinese)
+
+## Example Screen Shot
+
+![Example Screen Shot](https://raw.githubusercontent.com/xixilive/wxweather/master/doc/screenshot.jpg)
+----
+
+### 风险提示
+
+小程序核心库变动较快, 时间有限, 不能紧跟核心库的更新, 目前的封装的核心库版本是1.7.0. 引用本package可能因核心库变动带来不兼容的问题, 请谨慎使用. 已知的问题请注意 issues 更新
