@@ -64,5 +64,9 @@ describe('Wrapped methods', () => {
       expect(typeof api.requireAuth).toBe('function')
       expect(typeof api.Http).toBe('function')
     })
+
+    it('depreciate requireAuth', () => {
+      expect(api.requireAuth).toThrow()
+    })
   })
 })

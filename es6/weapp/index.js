@@ -1,7 +1,7 @@
 import findMethods from './definitions'
 import factory from './factory'
 import Http from './http'
-import {shortcutRequest, requireAuth} from './enhancements'
+import {shortcutRequest} from './enhancements'
 
 const wrapMethods = (dest, src, methods) => {
   for(let i = 0; i < methods.length; i++){
@@ -19,7 +19,11 @@ function wxWrapper(x){
   const methods = findMethods()
   wrapMethods(weapp, x, methods)
   shortcutRequest(weapp.request)
-  weapp.requireAuth = requireAuth(weapp.login, weapp.getUserInfo)
+  
+  weapp.requireAuth = () => {
+    throw new Error('weapp.requireAuth is deprecated, please use weapp.login and weapp.getUserInfo')
+  }
+
   weapp.Http = Http(weapp.request)
 
   return weapp

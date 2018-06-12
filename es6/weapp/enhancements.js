@@ -37,20 +37,6 @@ function shortcutRequest(req){
   return req
 }
 
-function requireAuth(login, getUserInfo){
-  return (options = {withCredential: true}) => {
-    return Promise.all([
-      login(),
-      getUserInfo(options)
-    ]).then(([code, ui]) => {
-      /* eslint no-unused-vars:0 */
-      const {errMsg, ...data} = ui
-      return {...data, code: code.code}
-    })
-  }
-}
-
 export {
-  shortcutRequest,
-  requireAuth
+  shortcutRequest
 }

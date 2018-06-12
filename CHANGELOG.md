@@ -1,3 +1,8 @@
+# v0.5.0
+
+- depreciate `weapp.requireAuth` function
+- keep rest arguments on promisify
+
 # v0.4.1
 
 - fix overwrite wrappers

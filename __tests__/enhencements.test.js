@@ -1,5 +1,4 @@
 const {
-  requireAuth,
   shortcutRequest
 } = require('../es6/weapp/enhancements')
 
@@ -15,16 +14,6 @@ describe('shortcutRequest', () => {
     for(let i = 0; i < verbs.length; i++){
       expect(typeof req[verbs[i]]).toBe('function')
     }
-  })
-})
-
-describe('requireAuth', () => {
-  it('should resolves clean data for authentication', () => {
-    const wxlogin = () => Promise.resolve({code: 'code', extra: 'extra'})
-    const wxgetUserInfo = () => Promise.resolve({userInfo: 'userInfo', errMsg: 'WTF'})
-    return requireAuth(wxlogin, wxgetUserInfo)().then(res => {
-      expect(res).toEqual({code: 'code', userInfo: 'userInfo'})
-    })
   })
 })
 

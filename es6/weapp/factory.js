@@ -13,13 +13,20 @@ const wrappers = {}
 wrappers.promisify = (x, method) => {
   const xfn = x[method]
   return function(obj){
+    const rest = [].slice.call(arguments, 1)
     const promise = new Promise((resolve, reject) => {
-      xfn(Object.assign({}, obj, {success: resolve, fail: reject, complete: null}))
+      xfn(
+        Object.assign({}, obj, {
+          success: resolve, fail: reject, complete: null
+        }),
+        ...rest
+      )
     })
     const resolver = getResolver(method)
     return resolver ? promise.then(resolver) : promise
   }
 }
+
 
 wrappers.delegate = (x, method) => {
   const xfn = x[method]

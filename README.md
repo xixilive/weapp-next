@@ -28,15 +28,41 @@ npm i xixilive/weapp-next --save-dev
 npm i weapp-next --save-dev
 ```
 
+## Examples
+
+### non-callback and RESTful HTTP
+
+```js
+const weapp = require('weapp-next')(wx)
+const client = weapp.Http('https://api.server.com/')
+
+//async/await
+async function postLogin(){
+  const {code} = await weapp.login()
+  const {errMsg, ...userInfo} = await weapp.getUserInfo({withCredentials: true})
+  return await client.post('/login', {data: {...userInfo, code}})
+}
+
+//promise
+function postLogin(){
+  const getUserInfo = code => opts => {
+    return weapp.getUserInfo(opts).then(({errMsg, ...userInfo}) => ({userInfo, code})
+  }
+
+  const postRequest = data => client.post('/login', {data})
+  return weapp.login().then(getUserInfo).then(postRequest)
+}
+```
+
 ## Usage
 
 `weapp-next` use UMD module system, you can load it in Commonjs or AMD format.
 
 ```js
-import weapp, {Promise} from 'weapp-next'
+import weapp from 'weapp-next'
 
 // get wrapped wx Object
-const {request, requireAuth, Http} = weapp(wx)
+const {request, Http} = weapp(wx)
 
 // use request API
 request({url: 'https://test.com', method: 'GET'}).then(response => console.log)
@@ -44,18 +70,13 @@ request({url: 'https://test.com', method: 'GET'}).then(response => console.log)
 // use shortcuts of request API, such as get, post, put, etc.
 request.get('https://test.com').then(response => console.log)
 
-// you can use an all-in-one method
-weapp.requireAuth().then(([code, userInfo]) => console.log)
-
 // use Http client
 const http = Http('https://server.com/api')
 http.get('/path').then(response => console.log)
 
-// use Promise
-Promise.all([...]).then()
+// or
+const weapp = require('weapp-next')(wx)
 ```
-
-## Wrapped methods
 
 Wraps almost all of official APIs, see [Wrapped methods](./docs/METHODS.md)
 
@@ -100,22 +121,9 @@ const config = {...}
 return {...config, ...init(), url, method}
 ```
 
-### `weapp.requireAuth`
+### `weapp.requireAuth` (DPRECIATED)
 
-> login and getUserInfo in parallel
-
-```js
-import weapp from 'weapp-next'
-const {request, requireAuth} = weapp(wx)
-
-requireAuth().then(({code, userInfo, vi, ...}) => {
-  return request.post('https://api.server.com/session', {code, userInfo, vi, ...})
-})
-
-// on server side:
-// 1. to exchange session_key via code,
-// 2. decrypt and store userInfo, and create your app scope session etc.
-```
+> DPRECIATED
 
 Here is a Express middleware for weapp login scenario which purpose to make it easy to integrate weapp login and getUserInfo logic. [express-weapp-auth](https://github.com/xixilive/express-weapp-auth)
 
@@ -129,15 +137,6 @@ http.get('/status', {version: '1'}) // /status?version=1
 http.post('/status', {data: {}})
 ```
 
-## Moduling weapp development (TL;DW)
+## Changes
 
- [modulize wechat applet development](https://gist.github.com/xixilive/5bf1cde16f898faff2e652dbd08cf669) (chinese)
-
-## Example Screen Shot
-
-![Example Screen Shot](https://raw.githubusercontent.com/xixilive/wxweather/master/doc/screenshot.jpg)
-----
-
-### 风险提示
-
-小程序核心库变动较快, 时间有限, 不能紧跟核心库的更新, 目前的封装的核心库版本是1.7.0. 引用本package可能因核心库变动带来不兼容的问题, 请谨慎使用. 已知的问题请注意 issues 更新
+[Change log](./CHANGELOG.md)
